@@ -2,185 +2,297 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My DevOps Project</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevOps PFE Project</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
 
   <style>
-    :root {
-      --bg: #0f172a;
-      --card: #1e293b;
-      --text: #e2e8f0;
-      --accent: #38bdf8;
-    }
-
-    body.light {
-      --bg: #f1f5f9;
-      --card: #ffffff;
-      --text: #0f172a;
-      --accent: #2563eb;
-    }
-
+    /* =========================
+       RESET
+    ========================== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Arial, sans-serif;
-      scroll-behavior: smooth;
     }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      transition: 0.3s;
+      font-family: 'Syne', sans-serif;
+      background: #0a0e1a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    header {
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--card);
-      position: sticky;
-      top: 0;
+    /* =========================
+       BACKGROUND EFFECTS
+    ========================== */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(55,138,221,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(55,138,221,0.07) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 0;
     }
 
-    nav a {
-      margin: 0 10px;
-      color: var(--text);
-      text-decoration: none;
+    .glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.18;
+      z-index: 0;
     }
 
-    nav a:hover {
-      color: var(--accent);
-    }
+    .glow.blue { width: 400px; height: 400px; background: #378ADD; top: -100px; left: -80px; }
+    .glow.green { width: 300px; height: 300px; background: #1D9E75; bottom: 80px; right: -60px; }
+    .glow.purple { width: 200px; height: 200px; background: #534AB7; top: 50%; left: 60%; }
 
+    /* =========================
+       HERO SECTION
+    ========================== */
     .hero {
       text-align: center;
-      padding: 80px 20px;
-      animation: fadeIn 1s ease-in;
+      padding: 5rem 2rem 2rem;
+      position: relative;
+      z-index: 2;
     }
 
-    .hero h1 {
-      font-size: 40px;
-      margin-bottom: 10px;
+    .badge {
+      display: inline-flex;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(55,138,221,0.12);
+      border: 1px solid rgba(55,138,221,0.3);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      margin-bottom: 2rem;
     }
 
-    .hero p {
-      opacity: 0.8;
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: #1D9E75;
+      border-radius: 50%;
+      animation: pulse 1.8s infinite;
     }
 
-    .btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      border: none;
-      background: var(--accent);
-      color: white;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: 0.3s;
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.4; }
     }
 
-    .btn:hover {
-      transform: scale(1.05);
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      margin-bottom: 1rem;
     }
 
-    .section {
-      padding: 60px 20px;
+    .highlight { color: #378ADD; }
+    .highlight-green { color: #5DCAA5; }
+
+    .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 3rem;
+    }
+
+    /* =========================
+       PIPELINE
+    ========================== */
+    .pipeline {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 3rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .step {
       text-align: center;
     }
 
-    .card-container {
+    .icon {
+      width: 52px;
+      height: 52px;
       display: flex;
+      align-items: center;
       justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      margin-top: 6px;
+      color: #777;
+    }
+
+    /* =========================
+       CARDS
+    ========================== */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      max-width: 900px;
+      margin: auto;
+      padding: 0 1.5rem 3rem;
+      position: relative;
+      z-index: 2;
     }
 
     .card {
-      background: var(--card);
-      padding: 20px;
-      border-radius: 12px;
-      width: 250px;
-      transition: 0.3s;
+      padding: 1.2rem;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
     }
 
-    .card:hover {
-      transform: translateY(-10px);
+    .card h3 {
+      margin: 0.5rem 0;
     }
 
+    .tag {
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-top: 10px;
+      font-family: monospace;
+    }
+
+    /* =========================
+       TERMINAL
+    ========================== */
+    .terminal {
+      max-width: 600px;
+      margin: auto;
+      padding: 0 1.5rem 3rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .terminal-box {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .terminal-header {
+      background: rgba(255,255,255,0.05);
+      padding: 8px 12px;
+      font-family: monospace;
+      font-size: 11px;
+    }
+
+    .terminal-body {
+      background: rgba(0,0,0,0.4);
+      padding: 14px;
+      font-family: monospace;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    /* =========================
+       FOOTER
+    ========================== */
     footer {
       text-align: center;
-      padding: 20px;
-      background: var(--card);
-      margin-top: 40px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      font-family: monospace;
+      font-size: 11px;
+      color: #666;
+      padding-bottom: 2rem;
+      position: relative;
+      z-index: 2;
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <h2>DevOps Project</h2>
+  <!-- Background -->
+  <div class="grid-bg"></div>
+  <div class="glow blue"></div>
+  <div class="glow green"></div>
+  <div class="glow purple"></div>
 
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#features">Features</a>
-    <a href="#about">About</a>
-  </nav>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge">
+      <div class="badge-dot"></div>
+      DevOps PFE Project
+    </div>
 
-  <button class="btn" onclick="toggleTheme()">Toggle Theme</button>
-</header>
+    <h1>
+      My <span class="highlight">DevOps</span><br />
+      <span class="highlight-green">Project</span>
+    </h1>
 
-<section class="hero" id="home">
-  <h1>Welcome to My CI/CD Project</h1>
-  <p>Automated deployment using GitHub Actions 🚀</p>
-  <button class="btn" onclick="alert('Pipeline is running via GitHub Actions!')">
-    Test Button
-  </button>
-</section>
+    <p class="subtitle">// CI/CD · Docker · Kubernetes · IaC · Monitoring</p>
+  </section>
 
-<section class="section" id="features">
-  <h2>Features</h2>
-  <div class="card-container">
+  <!-- Pipeline -->
+  <section class="pipeline">
+    <div class="step"><div class="icon">📄</div><div class="label">CODE</div></div>
+    <div class="step"><div class="icon">⚙️</div><div class="label">BUILD</div></div>
+    <div class="step"><div class="icon">📊</div><div class="label">TEST</div></div>
+    <div class="step"><div class="icon">📦</div><div class="label">DEPLOY</div></div>
+    <div class="step"><div class="icon">👁️</div><div class="label">MONITOR</div></div>
+  </section>
+
+  <!-- Cards -->
+  <section class="cards">
     <div class="card">
-      <h3>CI Pipeline</h3>
-      <p>Automatically tests your code on every push.</p>
+      <h3>CI/CD Pipeline</h3>
+      <p>Automated build & deploy using GitHub Actions</p>
+      <span class="tag">CI/CD</span>
     </div>
 
     <div class="card">
-      <h3>CD Pipeline</h3>
-      <p>Automatically deploys your website.</p>
+      <h3>Containerization</h3>
+      <p>Docker & Kubernetes orchestration</p>
+      <span class="tag">Docker</span>
     </div>
 
     <div class="card">
-      <h3>GitHub Actions</h3>
-      <p>Automates everything from build to deploy.</p>
+      <h3>Infrastructure as Code</h3>
+      <p>Terraform & Ansible automation</p>
+      <span class="tag">IaC</span>
     </div>
-  </div>
-</section>
 
-<section class="section" id="about">
-  <h2>About This Project</h2>
-  <p>
-    This is a simple DevOps learning project demonstrating CI/CD using GitHub Actions
-    and automatic deployment to GitHub Pages.
-  </p>
-</section>
+    <div class="card">
+      <h3>Monitoring</h3>
+      <p>Prometheus & Grafana observability</p>
+      <span class="tag">Monitoring</span>
+    </div>
+  </section>
 
-<footer>
-  <p>Made for learning DevOps • Powered by GitHub Actions</p>
-</footer>
+  <!-- Terminal -->
+  <section class="terminal">
+    <div class="terminal-box">
+      <div class="terminal-header">pipeline status</div>
+      <div class="terminal-body">
+        ✔ build completed<br />
+        ✔ test passed<br />
+        ✔ deploy successful<br />
+        $ running production...
+      </div>
+    </div>
+  </section>
 
-<script>
-  function toggleTheme() {
-    document.body.classList.toggle("light");
-  }
-</script>
+  <!-- Footer -->
+  <footer>
+    © 2025 DevOps PFE Project
+  </footer>
 
 </body>
 </html>
