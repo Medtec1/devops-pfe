@@ -10,6 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - run: test -f index.html
+      - run: test -f style.css
 
   deploy:
     runs-on: ubuntu-latest
